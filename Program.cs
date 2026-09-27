@@ -1,4 +1,20 @@
+using Microsoft.EntityFrameworkCore;
+using MeetingRoomBookingSystem.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
+//Database configuration
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddDbContext<BookingDbContext>(options =>
+        options.UseInMemoryDatabase("BookingLocalDb"));
+}
+else
+{
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    builder.Services.AddDbContext<BookingDbContext>(options =>
+        options.UseSqlServer(connectionString));
+}
 
 // Add services to the container.
 
