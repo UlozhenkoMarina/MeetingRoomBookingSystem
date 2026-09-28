@@ -1,0 +1,106 @@
+:root {
+    --olive-primary: #556B2F;
+    --olive-hover: #4B5E28;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.custom-header {
+    background-color: var(--olive-primary) !important;
+    width: 100%;
+    z-index: 1030;
+}
+
+.main-auth-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    padding: 40px 15px;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 15px !important;
+}
+
+.text-olive {
+    color: var(--olive-primary) !important;
+}
+
+.btn-olive {
+    background-color: var(--olive-primary) !important;
+    border-color: var(--olive-primary) !important;
+    cursor: pointer;
+}
+
+.btn-olive:hover {
+    background-color: var(--olive-hover) !important;
+    border-color: var(--olive-hover) !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--olive-primary) !important;
+    box-shadow: 0 0 0 0.25rem rgba(85, 107, 47, 0.25) !important;
+}
+
+.custom-footer {
+    width: 100%;
+    margin-top: auto;
+}
+
+.hour-btn {
+    border: 1px solid #dee2e6 !important;
+    background-color: #ffffff !important;
+    color: #495057 !important;
+    text-align: center;
+    padding: 10px 5px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    user-select: none;
+}
+
+.hour-btn:hover {
+    background-color: #f8f9fa !important;
+    border-color: var(--olive-primary) !important;
+    color: var(--olive-primary) !important;
+    transform: translateY(-1px);
+}
+
+.hour-btn.active {
+    background-color: var(--olive-primary) !important;
+    border-color: var(--olive-primary) !important;
+    color: #ffffff !important;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(85, 107, 47, 0.2);
+}
+
+#batch-list .list-group-item {
+    border-left: 4px solid var(--olive-primary) !important;
+    background-color: #ffffff;
+    transition: all 0.2s ease;
+}
+
+#batch-list .list-group-item:hover {
+    background-color: #f4f6f0;
+}
+
+input[type="number"].form-control-lg,
+input[type="date"] {
+    border-radius: 8px !important;
+}

@@ -50,7 +50,11 @@ authForm.addEventListener('submit', async (e) => {
             localStorage.setItem('name', data.name);
             
             alert('Sign In successful! Redirecting to dashboard.');
-            window.location.href = 'index.html'; 
+            if (data.isAdmin === true || data.isAdmin === "true") {
+                window.location.href = 'admin.html';
+            } else {
+                window.location.href = 'customer.html';
+            }
         } else {
             alert('Registration successful! Please sign in.');
             toggleModeBtn.click(); 

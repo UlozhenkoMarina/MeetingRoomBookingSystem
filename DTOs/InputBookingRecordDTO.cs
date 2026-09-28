@@ -9,7 +9,7 @@ public class InputBookingRecordDTO
     //Date of booking 
     public DateTime BookingDate { get; set; }
 
-    //24 bit mask for booked slots of time
+    //24 bit mask for booked slots of time for each chosen date
     // Each slot have 60 minute duration
-    public int BookedSlots { get; set; }
+    public Dictionary<DateTime, int>? SlotsPerDate;
 }
