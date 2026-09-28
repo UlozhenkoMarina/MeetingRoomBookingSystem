@@ -53,7 +53,7 @@ authForm.addEventListener('submit', async (e) => {
             if (data.isAdmin === true || data.isAdmin === "true") {
                 window.location.href = 'admin.html';
             } else {
-                window.location.href = 'customer.html';
+                window.location.href = 'customer_overview.html';
             }
         } else {
             alert('Registration successful! Please sign in.');

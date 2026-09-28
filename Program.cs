@@ -193,5 +193,40 @@ app.MapPost("/api/admin/bookings", async (System.Text.Json.JsonElement json, Boo
     return Results.Ok(new { Message = $"Room '{newRoom.Title}' ({roomDto.Number}) and its flexible slots published successfully!", RoomId = newRoom.Id });
 });
 
+app.MapGet("/api/customer/rooms", async (BookingDbContext context, HttpContext httpContext) =>
+{
+    var authHeader = httpContext.Request.Headers["Authorization"].ToString();
+    if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
+        return Results.Json(new { Message = "Unauthorized" }, statusCode: 401);
+
+    var token = authHeader.Substring(7);
+    var tokenHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+
+    try
+    {
+        tokenHandler.ValidateToken(token, new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ClockSkew = TimeSpan.Zero
+        }, out var validatedToken);
+
+        var jwtToken = (System.IdentityModel.Tokens.Jwt.JwtSecurityToken)validatedToken;
+        var isAdminClaim = jwtToken.Claims.FirstOrDefault(x => x.Type == "IsAdmin")?.Value;
+
+        if (isAdminClaim == "true")
+            return Results.Json(new { Message = "Forbidden. Customers access only." }, statusCode: 403);
+    }
+    catch
+    {
+        return Results.Json(new { Message = "Unauthorized. Invalid token." }, statusCode: 401);
+    }
+
+    var rooms = await context.Rooms.AsNoTracking().ToListAsync();
+    return Results.Ok(rooms);
+});
+
 
 app.Run();
