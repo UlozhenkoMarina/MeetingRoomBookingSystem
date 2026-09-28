@@ -10,4 +10,8 @@ public class InputUserDTO
     //Password for User authentication
     public string Password { get; set; } = string.Empty;
 
+
+    //Field for identifying admin users
+    public bool IsAdmin { get; set; }
+
 }
