@@ -141,3 +141,11 @@ document.getElementById('room-master-form').addEventListener('submit', async (e)
         alert('Execution Error: ' + err.message);
     }
 });
+
+const logoutBtn = document.getElementById('logout-btn');
+if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+        localStorage.clear(); 
+        window.location.href = 'auth.html'; 
+    });
+}

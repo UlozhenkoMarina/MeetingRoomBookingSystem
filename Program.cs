@@ -193,6 +193,7 @@ app.MapPost("/api/admin/bookings", async (System.Text.Json.JsonElement json, Boo
     return Results.Ok(new { Message = $"Room '{newRoom.Title}' ({roomDto.Number}) and its flexible slots published successfully!", RoomId = newRoom.Id });
 });
 
+//overview of list of rooms by customer 
 app.MapGet("/api/customer/rooms", async (BookingDbContext context, HttpContext httpContext) =>
 {
     var authHeader = httpContext.Request.Headers["Authorization"].ToString();

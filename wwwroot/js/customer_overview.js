@@ -62,3 +62,11 @@ async function loadRooms() {
 }
 
 window.onload = loadRooms;
+
+const logoutBtn = document.getElementById('logout-btn');
+if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+        localStorage.clear(); 
+        window.location.href = 'auth.html'; 
+    });
+}
