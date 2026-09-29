@@ -104,3 +104,12 @@ input[type="number"].form-control-lg,
 input[type="date"] {
     border-radius: 8px !important;
 }
+
+.hour-btn.style-disabled {
+    background-color: #e9ecef !important; 
+    color: #6c757d !important;            
+    border-color: #dee2e6 !important;    
+    cursor: not-allowed !important;       
+    opacity: 0.65;                        
+    text-decoration: line-through;        
+}

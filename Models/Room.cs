@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace MeetingRoomBookingSystem.Models;
 
 //model for representing meeting Room and related information 
@@ -18,5 +20,10 @@ public class Room
 
     //Foreign key of Id of admin who create current meeting room
     public int AdminId { get; set; }
+
+    //field for storing version of modification of booking information about room
+    [ConcurrencyCheck]
+
+    public int RoomVersion { get; set; }
 
 }

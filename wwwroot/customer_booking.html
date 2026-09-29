@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Details & Booking — Meeting Room System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/customer_booking.js" defer></script>
+</head>
+<body class="d-flex flex-column min-vh-screen bg-light">
+
+    <header class="custom-header p-3 text-white shadow-sm">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h1 class="h4 mb-0 fw-bold">🌿 Meeting Room Booking System</h1>
+            <div class="d-flex align-items-center gap-3">
+                <span id="user-greeting" class="badge bg-white text-dark px-3 py-2 fs-6 fw-semibold">Welcome</span>
+                <button id="back-btn" class="btn btn-outline-light btn-sm fw-bold px-3">← Back to Rooms</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow-1 d-flex align-items-center justify-content-center w-100 px-3 main-auth-container">
+        <div class="card shadow border-0 p-4 auth-card" style="max-width: 600px !important;">
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <h2 id="room-title-display" class="h4 fw-bold text-olive mb-1">Loading Room Details...</h2>
+                    <span id="room-number-display" class="badge bg-light text-secondary border fs-6">Please wait...</span>
+                </div>
+                
+                <form id="booking-form">
+                    <div class="mb-4">
+                        <label for="booking-date" class="form-label text-secondary small fw-medium">Select Date for Reservation</label>
+                        <input type="date" id="booking-date" required class="form-control form-control-lg fs-6">
+                    </div>
+
+                    <div id="slots-block" class="border rounded p-3 bg-white mb-4 shadow-sm d-none">
+                        <h4 class="h6 fw-bold text-dark mb-3">Hourly Slots Schedule</h4>
+                        <label class="form-label text-secondary small fw-medium mb-2">Click to select available hours (Green):</label>
+                        <div id="customer-hours-grid" class="row g-2"></div>
+                    </div>
+                    
+                    <button type="submit" id="book-btn" class="btn btn-success btn-lg w-100 fw-bold shadow-sm btn-olive" disabled>
+                        Confirm Booking
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-white-50 text-center py-3 border-top border-secondary custom-footer">
+        <div class="container small">&copy; 2026 Meeting Room Booking System.</div>
+    </footer>
+
+</body>
+</html>

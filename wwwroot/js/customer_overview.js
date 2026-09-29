@@ -43,14 +43,22 @@ async function loadRooms() {
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <h3 class="h6 fw-bold text-dark mb-1">${room.title}</h3>
-                        <span class="badge bg-light text-secondary border">Room № ${room.number}</span>
+                        <span class="badge bg-light text-secondary border">Room  ${room.number}</span>
                     </div>
                     <span class="badge text-white px-2 py-1 small btn-olive">Capacity: ${room.capacity}</span>
                 </div>
             `;
 
             card.addEventListener('click', () => {
-                window.location.href = `room-details.html?id=${room.id}&title=${encodeURIComponent(room.title)}&number=${encodeURIComponent(room.number)}`;
+                const inputRoomDTO = {
+                    id: room.id,
+                    title: room.title,
+                    number: room.number,
+                    capacity: room.capacity
+                };
+
+                localStorage.setItem('selectedRoomDTO', JSON.stringify(inputRoomDTO));
+                window.location.href = 'customer_booking.html'; 
             });
 
             roomsContainer.appendChild(card);
@@ -62,11 +70,3 @@ async function loadRooms() {
 }
 
 window.onload = loadRooms;
-
-const logoutBtn = document.getElementById('logout-btn');
-if (logoutBtn) {
-    logoutBtn.addEventListener('click', () => {
-        localStorage.clear(); 
-        window.location.href = 'auth.html'; 
-    });
-}

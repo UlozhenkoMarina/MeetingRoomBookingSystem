@@ -3,6 +3,9 @@ namespace MeetingRoomBookingSystem.DTOs;
 //DTO for receiving information about room object
 public class InputRoomDTO
 {
+    //Unique Identifier of Room in db
+    public int Id { get; set; }
+    
     //Title of the meeting room
     public string Title { get; set; } = string.Empty;
 
