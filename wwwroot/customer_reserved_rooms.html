@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Panel — Meeting Rooms</title>
+    <title>My Reservations — Meeting Room System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/customer_overview.js" defer></script>
+    <script src="js/customer_reserved_rooms.js" defer></script>
 </head>
 <body class="d-flex flex-column min-vh-screen bg-light">
 
@@ -15,29 +15,28 @@
             <h1 class="h4 mb-0 fw-bold">🌿 Meeting Room Booking System</h1>
             <div class="d-flex align-items-center gap-3">
                 <span id="user-greeting" class="badge bg-white text-dark px-3 py-2 fs-6 fw-semibold">Welcome</span>
-                <a href="customer_reserved_rooms.html" class="btn btn-outline-light btn-sm fw-bold px-3 py-1">My Bookings</a>
-                <button id="logout-btn" class="btn btn-outline-light btn-sm fw-bold px-3 py-1">Sign Out</button>
+                <button id="back-btn" class="btn btn-outline-light btn-sm fw-bold px-3 py-1">← Back to Rooms</button>
             </div>
         </div>
     </header>
 
-    <main class="flex-grow-1 d-flex align-items-center justify-content-center w-100 px-3 main-auth-container">
-        <div class="card shadow border-0 p-4 auth-card">
+    <main class="flex-grow-1 d-flex align-items-center justify-content-center w-100 px-3 main-auth-container py-5">
+        <div class="card shadow border-0 p-4 auth-card" style="max-width: 700px !important;">
             <div class="card-body">
-                <h2 class="card-title h4 text-center mb-4 fw-bold text-olive">Available Meeting Rooms</h2>
-                <p class="text-center text-secondary small mb-4">Click on any room card below to configure schedule and book slots.</p>
+                <div class="text-center mb-4">
+                    <h2 class="h4 fw-bold text-olive mb-1">Your Booking History</h2>
+                    <p class="text-secondary small mb-0">Below is the complete list of time slots you have secured across all conference rooms.</p>
+                </div>
                 
-                <div id="rooms-list-container" class="d-flex flex-column gap-3">
-                    <div class="text-center text-secondary small py-3">Loading available rooms...</div>
+                <div id="bookings-history-list" class="d-flex flex-column gap-3">
+                    <div class="text-center text-secondary small py-3">Loading reservation ledger...</div>
                 </div>
             </div>
         </div>
     </main>
 
     <footer class="bg-dark text-white-50 text-center py-3 border-top border-secondary custom-footer">
-        <div class="container small">
-            &copy; 2026 Meeting Room Booking System.
-        </div>
+        <div class="container small">&copy; 2026 Meeting Room Booking System.</div>
     </footer>
 
 </body>

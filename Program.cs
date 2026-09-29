@@ -391,6 +391,66 @@ app.MapPost("/api/customer/bookings", async (System.Text.Json.JsonElement json, 
 });
 
 
+//getting information about reserved by user rooms
+app.MapGet("/api/customer/reserved_rooms", async (BookingDbContext context, HttpContext httpContext) =>
+{
+    var authHeader = httpContext.Request.Headers["Authorization"].ToString();
+    if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
+        return Results.Json(new { Message = "Unauthorized" }, statusCode: 401);
+
+    var token = authHeader.Substring(7);
+    var tokenHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+    int userId;
+
+    try
+    {
+        var jwtToken = tokenHandler.ReadJwtToken(token);
+        var userIdClaim = jwtToken.Claims.FirstOrDefault(x => x.Type == "Id")?.Value;
+        var isAdminClaim = jwtToken.Claims.FirstOrDefault(x => x.Type == "IsAdmin")?.Value;
+
+        if (string.IsNullOrEmpty(userIdClaim)) return Results.Json(new { Message = "Unauthorized" }, statusCode: 401);
+        if (isAdminClaim == "true") return Results.Json(new { Message = "Forbidden. Customers access only." }, statusCode: 403);
+
+        userId = int.Parse(userIdClaim);
+    }
+    catch
+    {
+        return Results.Json(new { Message = "Unauthorized. Invalid token structure." }, statusCode: 401);
+    }
+
+    var customerBookings = await context.BookingRecords
+        .AsNoTracking()
+        .Where(b => b.UserId == userId)
+        .Join(context.Rooms,
+            booking => booking.RoomId,
+            room => room.Id,
+            (booking, room) => new
+            {
+                Id = booking.Id,
+                RoomId = booking.RoomId,
+                RoomTitle = room.Title,
+                RoomNumber = room.Number,
+                BookingDate = booking.BookingDate,
+                BookedSlots = booking.BookedSlots
+            })
+        .OrderByDescending(b => b.BookingDate)
+        .ToListAsync();
+
+    var resultList = customerBookings.Select(b => new
+    {
+        record = new OutputBookingRecordDTO
+        {
+            Id = b.Id,
+            RoomId = b.RoomId,
+            BookedSlots = b.BookedSlots
+        },
+        roomTitle = b.RoomTitle,
+        roomNumber = b.RoomNumber,
+        bookingDate = b.BookingDate.ToString("yyyy-MM-dd")
+    }).ToList();
+
+    return Results.Ok(resultList);
+});
 
 
 
