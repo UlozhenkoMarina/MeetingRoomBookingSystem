@@ -1,4 +1,4 @@
-# 🌿 Meeting Room Booking System (Trainee Camp Project)
+# 🌿 Meeting Room Booking System 
 
 This project is a lightweight, high-performance web application designed for managing meeting room availability and processing real-time booking. It is built using **.NET 10 (Minimal APIs)**, **Entity Framework Core**, and **SignalR** for real-time frontend synchronization.
 
