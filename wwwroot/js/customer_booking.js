@@ -1,3 +1,5 @@
+let signalRConnection = null; 
+
 if (!localStorage.getItem('token')) {
     window.location.href = 'auth.html';
 }
@@ -47,6 +49,10 @@ async function initRoomAndSchedulePage() {
 
         cachedBookingList = data.bookingList || [];
         renderHourlySchedule();
+
+        if (!signalRConnection) {
+            startSignalRConnection();
+        }
     } catch (error) {
         console.error('Error initializing room page:', error);
         document.getElementById('room-title-display').innerText = "Error loading room data";
@@ -56,7 +62,10 @@ async function initRoomAndSchedulePage() {
 function renderHourlySchedule() {
     let finalDayBookedMask = 0;
     cachedBookingList.forEach(record => {
-        finalDayBookedMask |= record.bookedSlots; // Побітове склеювання через АБО
+        const mask = record.bookedSlots !== undefined ? record.bookedSlots : record.BookedSlots;
+        if (mask !== undefined) {
+            finalDayBookedMask |= mask; 
+        }
     });
 
     hoursGrid.innerHTML = '';
@@ -65,7 +74,7 @@ function renderHourlySchedule() {
 
     for (let h = 0; h < 24; h++) {
         const padHour = String(h).padStart(2, '0');
-        const isOccupied = (finalDayBookedMask & (1 << h)) !== 0; // Перевірка вакансії години
+        const isOccupied = (finalDayBookedMask & (1 << h)) !== 0; 
 
         const col = document.createElement('div');
         col.className = 'col-3';
@@ -130,3 +139,32 @@ document.getElementById('booking-form').addEventListener('submit', async (e) => 
         alert('Error: ' + error.message);
     }
 });
+
+async function startSignalRConnection() {
+    if (typeof signalR === 'undefined') {
+        console.warn(" SignalR is not available yet");
+        setTimeout(startSignalRConnection, 1000); 
+        return;
+    }
+
+    try {
+        signalRConnection = new signalR.HubConnectionBuilder()
+            .withUrl("/bookingHub")
+            .withAutomaticReconnect() 
+            .build();
+
+        signalRConnection.on("ReceiveBookingUpdate", (updatedRoomId, updatedDate) => {
+            if (parseInt(updatedRoomId) === parseInt(roomId) && updatedDate === bookingDate.value) {
+                console.log(" SignalR: New data");
+                initRoomAndSchedulePage(); 
+            }
+        });
+
+        await signalRConnection.start();
+        console.log(" SignalR successful connection");
+    } catch (err) {
+        console.error("Connection to SignalR Hub error: ", err);
+        signalRConnection = null; 
+        setTimeout(startSignalRConnection, 5000);
+    }
+}

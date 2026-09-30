@@ -4,9 +4,12 @@ using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt; 
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
+
 using MeetingRoomBookingSystem.Data;
 using MeetingRoomBookingSystem.Models;
 using MeetingRoomBookingSystem.DTOs;
+using MeetingRoomBookingSystem.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +32,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSignalR();
+
 
 var app = builder.Build();
 
@@ -278,9 +283,11 @@ app.MapGet("/api/customer/booking", async (string jsonDto, DateTime date, Bookin
         Capacity = roomFromDb.Capacity
     };
 
+    var searchDate = date.Date;
+
     var records = await context.BookingRecords
         .AsNoTracking()
-        .Where(b => b.RoomId == dto.Id && b.BookingDate.Date == date.Date)
+        .Where(b => b.RoomId == dto.Id && b.BookingDate.Date == searchDate) // 👈 Тепер працює залізобетонно
         .Select(b => new MeetingRoomBookingSystem.DTOs.OutputBookingRecordDTO
         {
             Id = b.Id,
@@ -387,6 +394,15 @@ app.MapPost("/api/customer/bookings", async (System.Text.Json.JsonElement json, 
         return Results.Conflict(new { Message = "Concurrency Conflict: The schedule for this room was modified by another server thread. Transaction rolled back." });
     }
 
+    var hubContext = (IHubContext<BookingHub>)
+    httpContext.RequestServices.GetRequiredService(typeof(IHubContext<BookingHub>));
+
+    foreach (var kvp in slotsPerDate)
+    {
+        if (kvp.Value == 0) continue;
+        await hubContext.Clients.All.SendAsync("ReceiveBookingUpdate", dto.RoomId, kvp.Key.ToString("yyyy-MM-dd"));
+    }
+
     return Results.Ok(new { Message = "All selected slots reserved successfully with true distributed protection!" });
 });
 
@@ -453,6 +469,7 @@ app.MapGet("/api/customer/reserved_rooms", async (BookingDbContext context, Http
 });
 
 
+app.MapHub<BookingHub>("/bookingHub");
 
 
 app.Run();
