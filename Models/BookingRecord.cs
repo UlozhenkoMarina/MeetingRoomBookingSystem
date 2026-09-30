@@ -1,9 +1,16 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace MeetingRoomBookingSystem.Models;
 
+
 //model for representing Booking events and related information 
-public class BookingRecord{
+public class BookingRecord
+{
 
     //Unique Identifier of Booking Room in db
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
     //Foreign key of booked room

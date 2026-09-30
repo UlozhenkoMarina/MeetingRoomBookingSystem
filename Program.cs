@@ -48,6 +48,9 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<BookingDbContext>();
+
+        await context.Database.EnsureDeletedAsync();
+
         await context.Database.EnsureCreatedAsync();
     }
     catch (Exception ex)

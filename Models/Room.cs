@@ -1,11 +1,13 @@
 using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations.Schema;
 namespace MeetingRoomBookingSystem.Models;
 
 //model for representing meeting Room and related information 
 public class Room
 {
     //Unique Identifier of Room in db
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
     //Title of the meeting room
