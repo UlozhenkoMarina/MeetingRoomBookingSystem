@@ -298,8 +298,8 @@ app.MapGet("/api/customer/booking", async (string jsonDto, DateTime date, Bookin
 
     return Results.Ok(new
     {
-        Room = roomDto,
-        BookingList = records
+        room = roomDto,
+        bookingList = records
     });
 });
 
@@ -473,3 +473,6 @@ app.MapHub<BookingHub>("/bookingHub");
 
 
 app.Run();
+
+//for testing
+public partial class Program { }
