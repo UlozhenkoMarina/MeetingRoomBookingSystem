@@ -15,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
 {
-    options.SerializerOptions.PropertyNamingPolicy = null; // null зберігає оригінальні назви з великої літери
+    options.SerializerOptions.PropertyNamingPolicy = null; 
 });
 
 //Database configuration
@@ -86,7 +86,7 @@ app.MapPost("/api/auth/register", async (InputUserDTO dto, BookingDbContext cont
 
     context.Users.Add(user);
     await context.SaveChangesAsync();
-    return Results.Ok(new { Message = "Successfully registered" });
+    return Results.Ok(new { message = "Successfully registered" });
 });
 
 //login and generating JWT 
@@ -109,7 +109,7 @@ app.MapPost("/api/auth/login", async (InputUserDTO dto, BookingDbContext context
     };
     var token = tokenHandler.CreateToken(tokenDescriptor);
 
-    return Results.Ok(new { Token = tokenHandler.WriteToken(token), IsAdmin = user.IsAdmin });
+    return Results.Ok(new { token = tokenHandler.WriteToken(token), isAdmin = user.IsAdmin });
 });
 
 //adding room by administrator
