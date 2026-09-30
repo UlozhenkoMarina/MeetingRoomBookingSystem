@@ -13,6 +13,11 @@ using MeetingRoomBookingSystem.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
+{
+    options.SerializerOptions.PropertyNamingPolicy = null; // null зберігає оригінальні назви з великої літери
+});
+
 //Database configuration
 if (builder.Environment.IsDevelopment())
 {
